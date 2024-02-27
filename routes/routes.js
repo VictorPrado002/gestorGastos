@@ -107,58 +107,6 @@ router.post("/register", async (req, res) => {
     return;
   }
 });
-router.post("/registerPsic", async (req, res) => {
-  try {
-    const { nombre,apePat,apeMat, cedula, correo, contrasena } = req.body;
-    console.log( req.body);
-    bodyEnc=
-    {
-      nombre: encrypter.encryptString(nombre),
-      apePat: encrypter.encryptString(apePat),
-      apeMat: encrypter.encryptString(apeMat),
-      cedula: cedula,
-      correo: encrypter.encryptString(correo),
-      contrasena: encrypter.encryptString(contrasena)
-    }
-   // console.log(bodyEnc);
-
-    let ruta =
-      "C:/Users/victo/OneDrive/Escritorio/ProyectoRedes/dataBase/psicologos.json";
-    //guardarEnJSON(req.body,"C:/Users/victo/OneDrive/Escritorio/ProyectoRedes/dataBase/correos.json");
-    datosUsr = jsonHdlr.obtenerDatosJSON(ruta);
-    var personaEncontrada = null;
-    let contraEncontrada = "";
-
-    for (var i = 0; i < datosUsr.length; i++) {
-      var persona = datosUsr[i];
-      if (persona.cedula === bodyEnc.cedula) {
-        personaEncontrada = persona;
-        //console.log("Persona:", personaEncontrada);
-        break; // Detiene el bucle cuando se encuentra la persona
-      }
-    }
-    console.log("Persona:", personaEncontrada);
-    if (personaEncontrada != null) {
-      res.status(500).json({ success: false, err: "Usuario ya existente" });
-      return;
-    }else{
-      jsonHdlr.guardarEnJSON(bodyEnc, ruta);
-    console.log("Cliente registrado con éxito:");
-
-    // return res.status(200);
-    res.json({
-      success: true,
-    });
-    return;
-    }
-
-    
-  } catch (error) {
-    console.error("Error general al procesar la solicitud:", error);
-    res.status(500).json({ success: false, err: JSON.stringify(error) });
-    return;
-  }
-});
 
 router.post("/login", async (req, res) => {
   try {
